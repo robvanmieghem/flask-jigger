@@ -5,7 +5,7 @@ They give us a generic way of being able to handle various media types
 on the response, such as JSON encoded data or HTML output.
 
 
-REST framework also provides an HTML renderer the renders the browsable API.
+A HTML renderer is also provided that renders the browsable API.
 
 This file is based on the Django REST framework renderers
 """
@@ -18,7 +18,8 @@ from flask import render_template
 from util import encoders
 from util.breadcrumbs import get_breadcrumbs
 
-from rest import VERSION, status
+from __init__ import VERSION
+import status
 
 
 class BaseRenderer(object):

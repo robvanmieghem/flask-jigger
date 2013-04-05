@@ -1,8 +1,3 @@
-'''
-Created on Mar 7, 2013
-
-@author: rob
-'''
 from flask import request, abort
 from flask.globals import current_app
 import status
