@@ -1,5 +1,5 @@
-flask-rest
-==========
+flask-jigger
+============
 
 
 The purpose of yet another rest thingy framework is just about not being a framework.

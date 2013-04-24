@@ -4,8 +4,9 @@ import status
 from renderers import JSONRenderer, JSONPRenderer, BrowsableAPIRenderer
 
 
+default_renderers = [JSONRenderer(), JSONPRenderer(), BrowsableAPIRenderer()]
 
-def api_view(view_function, renderers=[JSONRenderer(), JSONPRenderer(), BrowsableAPIRenderer()]):
+def api_view(view_function, renderers=default_renderers):
     '''
     If 'renderers' is None, no special rendering will be done, the result of the function will just be passed to Flask to convert it a response.
     '''
