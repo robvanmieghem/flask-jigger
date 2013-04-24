@@ -65,7 +65,6 @@ setup(
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Environment :: Web Environment',
-        'Framework :: Flask',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
@@ -73,9 +72,3 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
     ]
 )
-
-# (*) Please direct queries to the discussion group, rather than to me directly
-#     Doing so helps ensure your question is helpful to other users.
-#     Queries directly to my email are likely to receive a canned response.
-#
-#     Many thanks for your understanding.
