@@ -13,7 +13,7 @@ Goals are:
 Usage
 -----
 
-Decorate functions decorated with `@app.route("/blablabla") or used in an `add_url_rule` with the `api_view` decorator.
+Decorate functions decorated with `@app.route("/blablabla")` or used in an `add_url_rule` with the `api_view` decorator.
 
     from flask_jigger import api_view
     
