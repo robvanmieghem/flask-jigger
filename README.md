@@ -15,12 +15,10 @@ Usage
 
 Decorate functions decorated with `@app.route("/blablabla")` or used in an `add_url_rule` with the `api_view` decorator.
 
-`
     from flask_jigger import api_view
     
     @api_view
     def someflaskviewfunction(id):
         return {'result':id}
-`
 
 
