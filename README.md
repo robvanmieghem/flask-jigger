@@ -1,4 +1,4 @@
-flask-jigger
+Flask-Jigger
 ============
 
 
@@ -30,5 +30,10 @@ If you want, you can also make your code more readable by using the status modul
     def someflaskviewfunction(id):
         abort(status.HTTP_400_BAD_REQUEST) #instead of abort(400)
 
+Installation
+------------
 
+Flask-Jigger is listed on pypi and can be installed using pip:
+
+`pip install Flask-Jigger`
 
