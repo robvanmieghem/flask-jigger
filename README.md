@@ -15,7 +15,7 @@ Usage
 
 Decorate functions decorated with `@app.route("/blablabla")` or used in an `add_url_rule` with the `api_view` decorator.
 
-    from flask_jigger import api_view
+    from flask_jigger.views import api_view
     
     @api_view
     def someflaskviewfunction(id):
@@ -23,6 +23,7 @@ Decorate functions decorated with `@app.route("/blablabla")` or used in an `add_
 
 If you want, you can also make your code more readable by using the status module:
 
+    from flask_jigger.views import api_view
     from flask_jigger import status
 
     @api_view
