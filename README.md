@@ -21,4 +21,13 @@ Decorate functions decorated with `@app.route("/blablabla")` or used in an `add_
     def someflaskviewfunction(id):
         return {'result':id}
 
+If you want, you can also make your code more readable by using the status module:
+
+    from flask_jigger import status
+
+    @api_view
+    def someflaskviewfunction(id):
+        abort(status.HTTP_400_BAD_REQUEST) #instead of abort(400)
+
+
 
