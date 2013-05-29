@@ -21,6 +21,19 @@ Decorate functions decorated with `@app.route("/blablabla")` or used in an `add_
     def someflaskviewfunction(id):
         return {'result':id}
 
+Some people like to be able to request a different mimetype from within their browser or another client without setting the `Accept` header.
+
+	from flask_jigger.urlrules import format_suffix_url_rules
+	
+	@app.route('/bla')
+	@api_view
+	def someflaskviewfunction()
+		return {'result':'yes'}
+		
+	format_suffix_url_rules(application)
+	
+Now you can access the resource also with `/bla.json` or `/bla.jsonp`, overriding the `Accept` header.
+
 If you want, you can also make your code more readable by using the status module:
 
     from flask_jigger.views import api_view
