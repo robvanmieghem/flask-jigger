@@ -12,8 +12,6 @@ class TestUrlRules(unittest.TestCase):
         with mock.MagicMock() as targetview:
             
             def check_request_effect(*args,**kwargs):
-                #No arguments passed
-                self.assertEqual(len(kwargs),0)
                 #Should only accept json, nothing else
                 self.assertTrue(flask.request.accept_mimetypes.accept_json)
                 self.assertFalse(flask.request.accept_mimetypes.accept_html)
