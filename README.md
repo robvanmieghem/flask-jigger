@@ -30,7 +30,7 @@ Some people like to be able to request a different mimetype from within their br
 	def someflaskviewfunction()
 		return {'result':'yes'}
 		
-	format_suffix_url_rules(application)
+	format_suffix_url_rules(app)
 	
 Now you can access the resource also with `/bla.json` or `/bla.jsonp`, overriding the `Accept` header.
 
