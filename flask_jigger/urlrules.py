@@ -23,7 +23,9 @@ def format_suffix_url_rules(application, mapping={'json':'application/json', 'js
     Supplement existing url_rules with corresponding rules that also
     include a '.format' suffix.
     
-    While handling a request, the request.accept_mimetypes will be replaced to only accept the mimetype requested in the url  
+    While handling a request, the request.accept_mimetypes will be replaced to only accept the mimetype requested in the url.
+    
+    Only rules that target functions decorated with 'api_view' are suffixed.
     """
     for (endpoint, view_function) in [item for item in application.view_functions.items()]:
         if (view_function.__module__ == views.api_view.__module__) :
