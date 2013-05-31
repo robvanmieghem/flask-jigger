@@ -106,16 +106,16 @@ class BrowsableAPIRenderer(BaseRenderer):
     format = 'api'
     template = 'rest_framework/api.html'
 
-    def get_default_renderer(self, view):
+    def get_default_renderer(self, renderers):
         """
         Return an instance of the first valid renderer.
         (Don't use another documenting renderer.)
         """
-        renderers = [renderer for renderer in view.renderer_classes
-                     if not issubclass(renderer, BrowsableAPIRenderer)]
-        if not renderers:
+        nondocumenting_renderers = [renderer for renderer in renderers
+                     if not isinstance(renderer, BrowsableAPIRenderer)]
+        if not nondocumenting_renderers:
             return None
-        return renderers[0]()
+        return nondocumenting_renderers[0]
 
     def get_content(self, renderer, data,
                     accepted_media_type, renderer_context):
@@ -144,10 +144,7 @@ class BrowsableAPIRenderer(BaseRenderer):
 
 
     def get_name(self, view):
-        try:
-            return view.get_name()
-        except AttributeError:
-            return view.__function__.__name__
+        return view.__name__
 
     def get_description(self, view):
         try:
@@ -168,34 +165,29 @@ class BrowsableAPIRenderer(BaseRenderer):
         view = renderer_context['view']
         request = renderer_context['request']
         response = renderer_context['response']
-        media_types = [parser.media_type for parser in view.parser_classes]
 
-        renderer = self.get_default_renderer(view)
+        renderer = self.get_default_renderer(renderer_context['renderers'])
         content = self.get_content(renderer, data, accepted_media_type, renderer_context)
 
         name = self.get_name(view)
         description = self.get_description(view)
         breadcrumb_list = get_breadcrumbs(request.path)
 
+        import flask
+        allowed_methods = flask.current_app.create_url_adapter(request).allowed_methods(request.path)
+
         context = {
             'content': content,
             'view': view,
-            'request': request,
             'response': response,
             'description': description,
             'name': name,
             'version': VERSION,
             'breadcrumblist': breadcrumb_list,
-            'allowed_methods': view.allowed_methods,
-            'available_formats': [renderer.format for renderer in view.renderer_classes]
+            'allowed_methods': allowed_methods,
+            'available_formats': [renderer.format for renderer in renderer_context['renderers']]
         }
 
-        ret = render_template('show_entries.html', context=context)
+        ret = render_template('jigger/api.html', **context)
         
-        # Munge DELETE Response code to allow us to return content
-        # (Do this *after* we've rendered the template so that we include
-        # the normal deletion response code in the output)
-        if response.status_code == status.HTTP_204_NO_CONTENT:
-            response.status_code = status.HTTP_200_OK
-
         return ret

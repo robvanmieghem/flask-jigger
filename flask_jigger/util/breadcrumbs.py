@@ -4,8 +4,7 @@ from __future__ import unicode_literals
 
 def get_breadcrumbs(url):
     """Given a url returns a list of breadcrumbs, which are each a tuple of (name, url)."""
-
-#    from rest_framework.views import APIView
+    return []
 
     def breadcrumbs_recursive(url, breadcrumbs_list, prefix, seen):
         """Add tuples of (name, url) to the breadcrumbs list, progressively chomping off parts of the url."""
