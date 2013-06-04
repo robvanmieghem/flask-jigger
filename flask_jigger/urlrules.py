@@ -1,20 +1,22 @@
 from __future__ import unicode_literals
-from flask import request, abort
+from flask import request, abort, url_for
 import views, status
 
-def _accept_mimetype_replacer(view_function,mapping):
+def _accept_mimetype_replacer(view_function,mapping, original_endpoint):
     
     def force_mimetype(*args, **kwargs):
-        format = kwargs.pop('jigger_mimetype_format')
+        requested_format = kwargs.pop('jigger_mimetype_format')
         
-        if format not in mapping:
+        if requested_format not in mapping:
             abort(status.HTTP_406_NOT_ACCEPTABLE)
         
-        import werkzeug.datastructures
-        accept = werkzeug.datastructures.MIMEAccept([(mapping[format],1)])
-        request.accept_mimetypes = accept
+        environment = request.environ.copy()
+        environment['PATH_INFO'] = url_for(original_endpoint, **kwargs)
+        environment['HTTP_ACCEPT'] = mapping[requested_format]
         
-        return view_function(*args, **kwargs)
+        import flask
+        with flask.current_app.request_context(environment):
+            return flask.current_app.full_dispatch_request()
     
     return force_mimetype
 
@@ -30,4 +32,4 @@ def format_suffix_url_rules(application, mapping={'json':'application/json', 'js
     for (endpoint, view_function) in [item for item in application.view_functions.items()]:
         if (view_function.__module__ == views.api_view.__module__) :
             for rule in [rule for rule in application.url_map._rules_by_endpoint[endpoint]]:
-                application.add_url_rule(rule.rule + '.<jigger_mimetype_format>',endpoint + '.<jigger_mimetype_format>', _accept_mimetype_replacer(view_function,mapping))
+                application.add_url_rule(rule.rule + '.<jigger_mimetype_format>',endpoint + '.<jigger_mimetype_format>', _accept_mimetype_replacer(view_function,mapping, endpoint))
