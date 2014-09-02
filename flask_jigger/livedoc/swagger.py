@@ -91,9 +91,7 @@ class SwaggerDoc(object):
         '''
         Create a swagger description for a list of endpoints
         
-        Parameters
-        ----------
-        endpoints : list of str
+        @param endpoints : list of str
             The endpoints as passed to flask that need to be included in the api.
         
         '''
@@ -109,3 +107,28 @@ class SwaggerDoc(object):
             description['apis'].extend(self._generate_apis(endpoint))
         
         return description
+    
+    def generate_resource_listing(self, endpoints):
+        '''
+        Create a swagger resource listing for a list of endpoints
+        
+        @param endpoints : list of str
+            The endpoints as passed to flask that need to be included in the resourcelisting.
+        
+        '''
+        resourcelisting = {
+            'apiVersion': "0.1",
+            'swaggerVersion': "1.1",
+            'basePath': request.url,
+            'apis': [
+                     ]
+        }
+        
+        for endpoint in endpoints:
+            resourcelisting['apis'].append({
+                                            'path': "/%s.{format}" % endpoint,
+                                            'description': ""
+                                            })
+        
+       
+        return resourcelisting
