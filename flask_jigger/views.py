@@ -15,7 +15,9 @@ class ApiView():
     def __init__(self, view_function, renderers):
         self.renderers = renderers
         self.view_function = view_function
-        
+        if (hasattr(view_function,'__name__')):
+            self.__name__ = view_function.__name__
+         
     def __call__(self, *args, **kwargs):
         data = self.view_function(*args, **kwargs)
         

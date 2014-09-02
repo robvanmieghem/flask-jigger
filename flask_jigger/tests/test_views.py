@@ -8,6 +8,7 @@ class Test_Views(unittest.TestCase):
     def test_api_view(self):
         targetview = mock.MagicMock()
         targetview.return_value = {'testkey':'testvalue'}
+        targetview.__name__ = "TestName"
         
         renderer = mock.MagicMock()
         renderer.render = mock.MagicMock()
@@ -15,8 +16,8 @@ class Test_Views(unittest.TestCase):
         renderer.media_type = 'application/testmediatype'
         
         app = flask.Flask(__name__)
-        app.add_url_rule("/test/<id>", 'test_function', api_view(targetview,[renderer]))
-            
+        app.add_url_rule("/test/<id>", None, api_view(targetview,[renderer]))
+        
         with app.test_request_context('/test/123', headers={'Accept':'application/testmediatype'}):
             response = app.full_dispatch_request()
             self.assertEqual(response.data, 'ALL_OK')
